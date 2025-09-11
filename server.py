@@ -1,10 +1,14 @@
 from flask import Flask, jsonify
 import requests
+import os #Necesario para extraer el token privado como variable de entorno obtenida de Render
 
 app = Flask(__name__)
 
 # El TOKEN me lo envió REDEIA por email cuando me suscribí a la API
-token = "8ec0b2a5dd9fd18161925ba3c9c9b8e8f12839dc8dc8dac847c81cdf71db3a1a"
+# Leemos ese TOKEN desde la variable de entorno
+token = os.environ.get('REE_TOKEN')
+if not token:
+    raise ValueError("No se ha configurado la variable de entorno REE_TOKEN")
 
 @app.route('/precio-luz', methods=['GET'])
 def get_precio_luz():
