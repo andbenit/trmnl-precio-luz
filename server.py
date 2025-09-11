@@ -17,12 +17,13 @@ def get_precio_luz():
     response = requests.get(url, headers=headers)
     if response.status_code == 200:
         data = response.json()
-        # Imprimimos la estructura de los datos para depurar:
-        print("Estructura de los datos:", data.keys())  # Ver qué claves tiene el JSON principal
+        precios = []
         if "PVPC" in data:
-            print("Primer elemento de PVPC:", data["PVPC"][0].keys())  # Ver las claves del primer precio
-        # Devolvemos los datos crudos para verlos en el navegador:
-        return jsonify(data)
+            for entry in data["PVPC"]:
+                fecha = f"{entry['Dia']} {entry['Hora']}"  # Usamos los nombres exactos de los campos
+                precio = entry.get("PCB", 0.0)  # Precio de la luz
+                precios.append({"fecha": fecha, "precio": f"{precio} €/MWh"})
+        return jsonify(precios)
     else:
         return jsonify({"error": f"Error al obtener los datos: {response.status_code}"})
 
