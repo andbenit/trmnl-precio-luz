@@ -72,6 +72,8 @@ def get_precio_luz():
                         precio["emoji"] = "💥"
                     elif precio["precio_num"] < umbral_barato:
                         precio["es_barato"] = True
+                    elif precio["precio_num"] <= 0
+                        precio["es_gratis"] = True
                     elif precio["precio_num"] > umbral_caro:
                         precio["es_caro"] = True
                     else:
